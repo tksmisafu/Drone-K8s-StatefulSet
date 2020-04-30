@@ -29,6 +29,7 @@ else
   kubectl config set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true
 fi
 
+kubectl version --client
 kubectl config set-context default --cluster=default --user=${PLUGIN_KUBERNETES_USER}
 kubectl config use-context default
 

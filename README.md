@@ -108,6 +108,7 @@ kubectl describe po/[ your pod name ] | grep SecretName | grep token
 ```
 
 (When you use **default service account**)
+
 2. Get data from you (k8s) secret
 
 ```bash

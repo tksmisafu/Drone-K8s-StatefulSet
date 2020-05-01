@@ -39,11 +39,12 @@ IFS=',' read -r -a CONTAINERS <<< "${PLUGIN_CONTAINER}"
 for STS in ${STATEFULSET[@]}; do
   echo Update to $KUBERNETES_SERVER
   for CONTAINER in ${CONTAINERS[@]}; do
-    sed s/${CONTAINER}/PLUGIN_CONTAINER/g ./image.yaml
-    sed s/${PLUGIN_REPO}/PLUGIN_REPO/g ./image.yaml
-    sed s/${PLUGIN_TAG}/PLUGIN_TAG/g ./image.yaml
+    sed -i "s/PLUGIN_CONTAINER/${CONTAINER}/g
+            s#PLUGIN_REPO#${PLUGIN_REPO}#g
+            s/PLUGIN_TAG/${PLUGIN_TAG}/g" /drone/image.yaml
+    cat /drone/image.yaml
 
-    kubectl -n ${PLUGIN_NAMESPACE} patch --patch "$(cat ./image.yaml)" \
+    kubectl -n ${PLUGIN_NAMESPACE} patch --patch "$(cat /drone/image.yaml)" \
       statefulset ${STS} --record
     # kubectl -n ${PLUGIN_NAMESPACE} set image deployment/${STS} \
     #   ${CONTAINER}=${PLUGIN_REPO}:${PLUGIN_TAG} --record
